@@ -13,7 +13,6 @@ Vue.component('product-details', {
   `
 })
 
-
 Vue.component('product', {
   props: {
     premium: {
@@ -27,7 +26,6 @@ Vue.component('product', {
         <img v-bind:src="image" />
       </div>
       <a v-bind:href="link">V-bind Link Challenge</a>
-
       <div class="product-info">
         <h1>{{ title }}</h1>
         <p>{{ description }}</p>
@@ -35,43 +33,33 @@ Vue.component('product', {
         <p v-else :class="{outOfStock: !inStock}">Out of Stock</p>
         <p v-if="onSale">{{sale}}</p>
         <p v-else="!onSale">{{nonsale}}</p>
-        <p>Shipping: {{ shipping }}</p>
-        
-
+        <p>Shipping: {{ shippingFee }}</p>
         <ul>
           <li v-for="detail in details">{{detail}}</li>
         </ul>
-
         <div v-for="(variant, index) in variants" 
             :key="variant.variantId"
             class="color-box"
             :style="{ backgroundColor: variant.variantColor}"
             @mouseover="updateProduct(index)">
         </div>
-
         <ul v-for="size in sizes">
           {{ size }}
         </ul>
-
         <button v-on:click="addToCart" 
                 :disabled="!inStock"
                 :class="{disabledButton: !inStock}">Add to card</button>
         <button v-on:click="deleteToCart">Minus Item</button>  
       </div>
-
       <product-tabs :reviews="reviews"></product-tabs>
-
-      
     </div>
   `,
   data() {
     return {
       product: 'Socks',
       description: 'A pair of warm, fuzzy socks',
-      // image: './assets/shoe.png',
       selectedVariant: 0,
       link: 'https://www.google.com/',
-      // inStock: true,
       onSale: true,
       details: ['80% cotton', '20% polyester', 'Gender-neutral'],
       variants: [
@@ -90,10 +78,7 @@ Vue.component('product', {
       ],
       reviews: [],
       sizes: ['S', 'M', 'L', 'XL', 'XXL'],
-     
-
       nonsale: 'no promotion',
-
       brand: 'Vue Mastery',
       product: 'on Sale'
       } 
@@ -112,7 +97,7 @@ Vue.component('product', {
     sale(){
       return this.brand + ' ' + this.product;
     },
-    shipping(){
+    shippingFee(){
       if(this.premium){
         return "Free"
       }
@@ -127,7 +112,6 @@ Vue.component('product', {
 
   methods: {
     addToCart: function(){
-      // this.cart += 1;
       this.$emit('add-to-cart', this.variants[this.selectedVariant].variantId)
     },
     updateProduct: function(index){
@@ -136,9 +120,6 @@ Vue.component('product', {
     },
 
     deleteToCart: function(){
-      // if(this.cart > 0){
-      //   this.cart -= 1;
-      // }
       this.$emit('delete-to-cart', this.variants[this.selectedVariant].variantId)
     },
 
@@ -157,8 +138,6 @@ Vue.component('product-review', {
         </ul>
       </p>
       
-
-
       <p>
         <label for="name">Name:</label>
         <input id="name" v-model="name" placeholder="name">
@@ -277,72 +256,12 @@ var app = new Vue({
     updateCart(id){
       this.cart.push(id)
     },
-
-    removeCart(id){
-      this.cart.pop(id)
+    removeCart(id) {
+      for(var i = this.cart.length - 1; i >= 0; i--) {
+        if (this.cart[i] === id) {
+           this.cart.splice(i, 1);
+        }
+      }
     }
   }
-  // data: {
-  //     product: 'Socks',
-  //     description: 'A pair of warm, fuzzy socks',
-  //     // image: './assets/shoe.png',
-  //     selectedVariant: 0,
-  //     link: 'https://www.google.com/',
-  //     // inStock: true,
-  //     onSale: true,
-  //     details: ['80% cotton', '20% polyester', 'Gender-neutral'],
-  //     variants: [
-  //       {
-  //         variantId: 2234,
-  //         variantColor: 'green',
-  //         variantImage: './assets/shoe.png',
-  //         variantQuantity: 10
-  //       },
-  //       {
-  //         variantId: 2235,
-  //         variantColor: 'blue',
-  //         variantImage: './assets/shoe2.jpg',
-  //         variantQuantity: 0
-  //       }
-  //     ],
-  //     sizes: ['S', 'M', 'L', 'XL', 'XXL'],
-  //     cart: 0,
-
-  //     nonsale: 'no promotion',
-
-  //     brand: 'Vue Mastery',
-  //     product: 'on Sale'
-  // },
-
-  // computed: {
-  //   nonsale(){
-  //     return this.nonsale;
-  //   },
-  //   image(){
-  //     return this.variants[this.selectedVariant].variantImage
-  //   },
-  //   inStock(){
-  //     return this.variants[this.selectedVariant].variantQuantity
-  //   },
-  //   sale(){
-  //     return this.brand + ' ' + this.product;
-  //   }
-  // },
-
-
-  // methods: {
-  //   addToCart: function(){
-  //     this.cart += 1;
-  //   },
-  //   updateProduct: function(index){
-  //     this.selectedVariant = index
-  //     this.cart = 0;
-  //   },
-
-  //   deleteToCart: function(){
-  //     if(this.cart > 0){
-  //       this.cart -= 1;
-  //     }
-  //   }
-  // }
 })
