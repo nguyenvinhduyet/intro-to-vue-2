@@ -11,10 +11,6 @@
       </template>
         
       <h3>Name & describe your event</h3>
-      <!-- <div class="field">
-        <label>Title</label>
-        <input v-model="event.title" type="text" placeholder="Add an event title"/>
-      </div> -->
       <BaseInput 
         label="Title" 
         v-model="event.title"
@@ -28,11 +24,6 @@
         class="errorMessage">Title is required</p>
       </template>
         
-
-      <!-- <div class="field">
-        <label>Description</label>
-        <input v-model="event.description" type="text" placeholder="Add a description"/>
-      </div> -->
       <BaseInput 
         label="Description" 
         v-model="event.description"
@@ -46,11 +37,6 @@
         class="errorMessage">Description is required</p>
       </template>
 
-      <h3>Where is your event?</h3>
-      <!-- <div class="field">
-        <label>Location</label>
-        <input v-model="event.location" type="text" placeholder="Add a location"/>
-      </div> -->
       <BaseInput 
         label="Location" 
         v-model="event.location"
@@ -83,8 +69,6 @@
         class="errorMessage">Time is required</p>
       </template>
 
-      <!-- <input type="submit" class="button -fill-gradient" value="Submit"/> -->
-      <!-- <BaseButton @click="sendMessage">Message</BaseButton> -->
       <BaseButton type="submit" buttonClass="-fill-gradient"
                   :disabled="$v.$anyError">Submit</BaseButton>
       <p v-if="$v.$anyError" class="errorMessage">Please fill out the required field(s).</p>
