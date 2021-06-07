@@ -5,41 +5,13 @@
   <v-app-bar app color="primary" dark>
     <v-toolbar-title>Vuetify Dashboard</v-toolbar-title>
     <v-spacer></v-spacer>
-    <v-btn text rounded>Home</v-btn>
-    <v-btn text rounded>Login</v-btn>
+    <v-btn text rounded v-for="link in links" :to='link.url' :key='`${link.label}-header-link`'>{{ link.label }}</v-btn>
   </v-app-bar>
 
 
    <v-content>  <!-- v-content dùng để chỉ định phần tử bên trong có relative với phần tử gốc (app bar) tránh bị app bar đè lên -->
-<!-- login form -->
-   <v-card width="400" class="mx-auto mt-5">
-     <v-card-title>
-       <h1 class="display-1">Login</h1>
-     </v-card-title>
-     <v-card-text>
-       <v-form>
-         <v-text-field 
-          label="Username" 
-          prepend-icon="mdi-account-circle">
-        </v-text-field>
-
-         <v-text-field 
-          label="Password" 
-          :type="showPassword ? 'text' : 'password'"
-          prepend-icon="mdi-lock"
-          :append-icon="showPassword ? 'mdi-eye' : 'mdi-eye-off'"
-          @click:append="showPassword = !showPassword">
-        </v-text-field>
-       </v-form>
-     </v-card-text>
-    <v-divider></v-divider>
-
-    <v-card-actions>
-      <v-btn color="success">Register</v-btn>
-      <v-spacer></v-spacer>
-      <v-btn color="info">Login</v-btn>
-    </v-card-actions>
-   </v-card>
+    <!-- login form -->
+    <router-view></router-view>
   </v-content>
 
 
@@ -50,22 +22,20 @@
   >
     <v-row
       justify="center"
-      no-gutters
-    >
+      no-gutters>
       <v-btn
         v-for="link in links"
-        :key="link"
+        :key='`${link.label}-footer-link`'
         color="white" 
         text  
         rounded
         class="my-2"
-      >
-        {{ link }}
+        :to='link.url'>
+        {{ link.label }}
       </v-btn>
       <v-col
         class="primary lighten-2 py-4 text-center white--text"
-        cols="12"
-      >
+        cols="12">
         {{ new Date().getFullYear() }} — <strong>Vuetify Dashboard</strong>
       </v-col>
     </v-row>
@@ -83,8 +53,18 @@ export default {
   data: () => ({
     showPassword: false,
     links: [
-      'Home',
-      'Login'
+      {
+        label: 'Home',
+        url: '/'
+      },
+      {
+        label: 'Login',
+        url: '/login'
+      },
+      {
+        label: 'Dashboard',
+        url: '/dashboard'
+      }
     ]
   }),
 };
